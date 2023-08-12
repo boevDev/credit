@@ -1,24 +1,57 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Container, Button } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Calc from './Components/Calc/Calc';
 
 function App() {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#28CA6C',
+      },
+      secondary: {
+        main: '#28CA6C',
+      },
+    },
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className='App'>
+      <ThemeProvider theme={theme}>
+        <Container
+          className='app__container'
+          maxWidth='xs'
+          style={{
+            padding: '0 12px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '40px',
+            height: '100%',
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Calc />
+          <Button
+            style={{
+              borderRadius: '40px',
+              color: 'white',
+              fontFamily: 'Inter',
+              fontSize: '16px',
+              textTransform: 'none',
+              padding: '16px 62px',
+              lineHeight: '19px',
+              maxWidth: '202px',
+              margin: '0 auto',
+            }}
+            variant='contained'
+          >
+            Получить
+          </Button>
+          {/* <MyInput /> */}
+        </Container>
+      </ThemeProvider>
     </div>
   );
 }
