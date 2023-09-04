@@ -49,7 +49,6 @@ function App() {
           >
             Получить
           </Button>
-          {/* <MyInput /> */}
         </Container>
       </ThemeProvider>
     </div>
