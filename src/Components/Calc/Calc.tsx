@@ -1,10 +1,9 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC } from 'react';
 import { FormGroup, TextField } from '@mui/material';
 import './Calc.scss';
 import { NumericFormat } from 'react-number-format';
 import { useState } from 'react';
 import getYear from '../getYear';
-import { useOutsideClick } from '../../Hooks/useOutsideClick';
 
 const Calc: FC = () => {
   const round = (num: number, multiply: number) => {
@@ -19,53 +18,47 @@ const Calc: FC = () => {
     } else return e;
   }
 
-  const [sumValue, setSumValue]: any = useState(400000);
-  const [timeValue, setTimeValue]: any = useState(5);
-  const [monthValue, setMonthValue]: any = useState(7067);
+  const [sumValue, setSumValue] = useState<number>(400000);
+  const [termValue, setTermValue] = useState<number>(5);
 
-  const procent = (sumValue / 100) * 6;
+  const [sumInput, setSumInput] = useState<number>(400000);
+  const [termInput, setTermInput] = useState<number>(5);
+  const [monthInput, setMonthInput] = useState<number>(8667);
 
-  const monthPay = (e: number) => {
-    let months = Number(timeValue) * 12;
-    return (e = (Number(sumValue) + procent) / months);
-  };
+  const procent = (sumValue / 100) * (termValue * 6);
+  const months = Number(termValue) * 12;
+
+  // получение суммы кредита из ежемесячного платежа:
+  // еж.плат. * (срок.кр. * 12) = x
+  // сумм.кр. = x - (x / (100 + срок.кр. * 6) * 100)
 
   const sumPay = (e: number) => {
-    let months = Number(timeValue) * 12;
-    let sum = monthValue * months;
-    return (e = sum - procent);
+    let sum = monthInput * months;
+    return (e = (sum / (100 + termValue * 6)) * 100);
   };
 
-  // const ref = useRef<HTMLElement>(null);
+  const sumOnBlur = (): void => {
+    return setMonthInput(() => {
+      return (Number(sumValue) + Number(procent)) / months;
+    });
+  };
 
-  // const handleClick = (event: MouseEvent) => {
-  //   if (ref.current && !ref.current.contains(event.target as Node)) {
-  //     console.log(round(sumPay(sumValue), 1000));
-  //     console.log(monthPay(monthValue).toFixed(0));
-  //     return round(sumPay(sumValue), 1000);
-  //     return monthPay(monthValue).toFixed(0);
-  //   }
-  // };
+  const termOnBlur = (): void => {
+    return setMonthInput(() => {
+      return (Number(sumValue) + Number(procent)) / months;
+    });
+  };
 
-  // useEffect(() => {
-  //   document.addEventListener('mousedown', handleClick);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClick);
-  //   };
-  // }, []);
-
-  const sumRef = useOutsideClick(() => {
-    console.log(round(sumPay(sumValue), 1000));
-    console.log(monthPay(monthValue).toFixed(0));
-    return round(sumPay(sumValue), 1000);
-  });
-
-  // console.log(monthValue);
+  const monthOnBlur = (): void => {
+    return setSumInput(() => {
+      return round(sumPay(sumInput), 1000);
+    });
+  };
 
   return (
     <div className='calc__wrapper'>
       <div className='calc__container'>
-        <h3>Выберите желаемые условия кредита:</h3>
+        <h3>Выберите желаемые условия кредита: </h3>
         <div id='calc__form_0' className='calc__form'>
           <h4 className='calc__title'>
             <div className='calc__title_black'>Сумма кредита</div>
@@ -83,14 +76,14 @@ const Calc: FC = () => {
                 const { value }: any = values;
                 setSumValue(value);
               }}
-              value={sumValue}
+              value={sumInput}
               defaultValue={400000}
               thousandSeparator=' '
               suffix=' &#8381;'
               decimalScale={0}
               customInput={TextField}
               type='text'
-              getInputRef={sumRef}
+              onBlur={sumOnBlur}
             />
           </div>
         </div>
@@ -102,28 +95,29 @@ const Calc: FC = () => {
             </h4>
             <NumericFormat
               defaultValue={5}
-              onValueChange={(values: any) => {
+              onValueChange={(values) => {
                 const { value }: any = values;
-                setTimeValue(value);
+                setTermValue(value);
               }}
-              value={isright(timeValue)}
+              value={isright(termInput)}
               className='input'
               required
-              suffix={getYear(timeValue)}
+              suffix={getYear(termInput)}
               placeholder='5 лет'
               thousandSeparator=' '
               customInput={TextField}
+              onBlur={termOnBlur}
             />
           </div>
           <FormGroup id='calc__form_2' className='calc__form'>
             <h4>Ежемесячный платёж</h4>
             <NumericFormat
-              id='calc__month'
-              value={monthPay(monthValue)}
               onValueChange={(values) => {
                 const { value }: any = values;
-                setMonthValue(value);
+                setMonthInput(value);
               }}
+              id='calc__month'
+              value={monthInput}
               placeholder='7067 &#8381;'
               defaultValue={7067}
               suffix=' &#8381;'
@@ -131,6 +125,7 @@ const Calc: FC = () => {
               displayType='input'
               customInput={TextField}
               decimalScale={0}
+              onBlur={monthOnBlur}
             />
           </FormGroup>
         </div>
