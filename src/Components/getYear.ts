@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 let userYear = 2;
 
-const getYear: any = (year: any) => {
+const getYear: any = (year: number) => {
   Number(year);
   let x = year;
   let count = year % 100;

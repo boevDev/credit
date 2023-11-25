@@ -1,0 +1,30 @@
+.plusMinus_container {
+  display: flex;
+  gap: 5px;
+
+  button.pm_btn {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    /* отображаем курсор в виде руки при наведении; некоторые
+    считают, что необходимо оставлять стрелочный вид для кнопок */
+    cursor: pointer;
+  }
+
+  .pm_btn svg {
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    transition: background-color 0.1s;
+  }
+
+  .pm_btn svg:hover {
+    background-color: #28ca6b3c;
+  }
+
+  .pm_btn svg:active {
+    background-color: #28ca6bbd;
+  }
+}

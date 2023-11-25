@@ -1,4 +1,10 @@
 .calc__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  gap: 40px;
+  
   .calc__container {
     margin: 0 auto;
     padding: 20px;
@@ -62,6 +68,31 @@
       flex-direction: row;
       flex-wrap: nowrap;
       justify-content: space-between;
+    }
+
+    .calc__sum {
+      position: relative;
+    }
+
+    .calc__term {
+      position: relative;
+    }
+
+    .calc__month {
+      position: relative;
+    }
+
+    .calc__btn {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      -webkit-tap-highlight-color: transparent; 
+    }
+
+    .calc__input {
+      height: 10px;
     }
   }
 }

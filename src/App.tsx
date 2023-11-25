@@ -33,22 +33,6 @@ function App() {
           }}
         >
           <Calc />
-          <Button
-            style={{
-              borderRadius: '40px',
-              color: 'white',
-              fontFamily: 'Inter',
-              fontSize: '16px',
-              textTransform: 'none',
-              padding: '16px 62px',
-              lineHeight: '19px',
-              maxWidth: '202px',
-              margin: '0 auto',
-            }}
-            variant='contained'
-          >
-            Получить
-          </Button>
         </Container>
       </ThemeProvider>
     </div>
